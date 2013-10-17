@@ -14,4 +14,6 @@
 @property NSMutableArray * weathers;
 
 - (id) initWithName: (NSString *) name;
+
+- (BOOL) isEqualToCity: (City *) other;
 @end

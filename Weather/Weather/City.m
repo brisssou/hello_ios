@@ -27,4 +27,20 @@
     }
     return [str description];
 }
+
+- (BOOL) isEqual:(id) other {
+    if (other == self)
+        return YES;
+    if (!other || ![other isKindOfClass:[self class]])
+        return NO;
+    return [self isEqualToCity:other];
+}
+
+- (BOOL) isEqualToCity: (City *) other {
+    if (self == other)
+        return YES;
+    if (![[self.name lowercaseString] isEqualToString:[other.name lowercaseString]])
+        return NO;
+    return YES;
+}
 @end

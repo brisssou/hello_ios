@@ -1,23 +1,23 @@
 //
-//  ViewController.m
+//  DetailViewController.m
 //  Weather
 //
-//  Created by admin on 15/10/13.
+//  Created by admin on 16/10/13.
 //  Copyright (c) 2013 admin. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "DetailViewController.h"
 
-@interface ViewController ()
+@interface DetailViewController ()
 
 @end
 
-@implementation ViewController
+@implementation DetailViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning

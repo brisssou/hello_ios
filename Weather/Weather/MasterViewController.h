@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddCityPopOverViewController.h"
 
-@interface ViewController : UISplitViewController
+@interface MasterViewController : UITableViewController <addCityDelegate, UIPopoverControllerDelegate>
 
 @end
