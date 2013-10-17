@@ -35,6 +35,7 @@
     return self;
 }
 
+//have to be there, because we have a popover launched from a uibarbutton
 - (BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     return ![identifier isEqualToString:@"openPopOverSegue"] || self.popOver == nil;
 }
@@ -49,7 +50,7 @@
     if ([[segue identifier] isEqualToString:@"openPopOverSegue"]) {
         NSLog(@"segue prepared");
         
-        [self.popOver dismissPopoverAnimated:YES];
+        [self closePopover];
         
         [self setPopOver: [popSegue popoverController]];
         [self.popOver setDelegate:self];
@@ -64,7 +65,17 @@
 }
 
 - (void) cityAdded:(AddCityPopOverViewController *)sender {
+    [self closePopover];}
+
+- (void)closePopover {
     [self.popOver dismissPopoverAnimated:YES];
+    self.popOver = nil;
+}
+
+//unwind segue, for cancel button
+- (IBAction) returned: (UIStoryboardSegue *) segue {
+    [self closePopover];
+    
 }
 
 - (void) dealloc {
