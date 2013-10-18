@@ -12,7 +12,8 @@
 
 @interface DatabaseHolder : NSObject
 - (BOOL) addCity: (City *) city withError:(NSError **) error;
-- (BOOL) setWeathers: (NSArray *) weathers forCity: (City *) city withError:(NSError **) error;
+- (BOOL)setWeathers:(NSArray *)weathers forCity:(City *)city withError:(NSError *__autoreleasing *)error;
+- (BOOL) setWeathers: (NSArray *) weathers forCityName: (NSString *) cityName withError:(NSError **) error;
 - (NSArray *) getCities;
 - (NSArray *) getWeathersForCity: (City *) city;
 - (BOOL) removeCity: (City *) city withError:(NSError **) error;

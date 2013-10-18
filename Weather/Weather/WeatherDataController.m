@@ -10,6 +10,7 @@
 #import "City.h"
 #import "DatabaseHolder.h"
 #import "Weather.h"
+#import "WeatherNetworkController.h"
 
 @interface WeatherDataController ()
 @property DatabaseHolder * database;
@@ -79,9 +80,24 @@ static WeatherDataController *sharedInstance;
         return [[o1 name] compare:[o2 name]];
     }];
     [self.database addCity:c withError:error];
-    [self.database setWeathers:c.weathers forCity:c withError:error];
-
+    [self updateWeatherForCityName:c.name];
     return YES;
+}
+
+- (void)updateWeatherForCityName:(NSString *)cityName {
+    [WeatherNetworkController requestWeathersForCityName:cityName
+                                              completion:^(NSArray *weathers, NSString *errorMsg) {
+                                                  
+                                                  if (errorMsg == nil){
+                                                      NSError * error;
+                                                      [self.database setWeathers:weathers
+                                                                         forCityName:cityName withError:&error];
+                                                  }else
+                                                      [[[UIAlertView alloc] initWithTitle:@"Error on Weather data gathering"
+                                                                                  message:errorMsg
+                                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+                                              }];
+
 }
 
 - (NSMutableArray *)cities{

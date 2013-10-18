@@ -10,6 +10,7 @@
 #import "WeatherDataController.h"
 #import "DetailViewController.h"
 #import "City.h"
+#import "CityCell.h"
 #import "Weather.h"
 
 @interface MasterViewController ()
@@ -112,9 +113,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CityCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    CityCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     City * city = [self.data.cities objectAtIndex:[indexPath row]];
-    [cell.textLabel setText:[city name]];
+    cell.cityName.text = [city name];
     return cell;
 }
 

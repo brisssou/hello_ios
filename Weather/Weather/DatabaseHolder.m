@@ -61,9 +61,13 @@ NSString * DB_PATH = @"weather.sqlite";
 }
 
 - (BOOL)setWeathers:(NSArray *)weathers forCity:(City *)city withError:(NSError *__autoreleasing *)error {
+    return [self setWeathers:weathers forCityName:city.name withError:error];
+}
+
+- (BOOL)setWeathers:(NSArray *)weathers forCityName:(NSString *)cityName withError:(NSError *__autoreleasing *)error {
     [self.db beginTransaction];
     
-    [self.db executeUpdate:@"DELETE FROM WEATHER WHERE CITYNAME = ?", city.name];
+    [self.db executeUpdate:@"DELETE FROM WEATHER WHERE CITYNAME = ?", cityName];
     
     for (Weather * weather in weathers){
         [self.db executeUpdate:@"INSERT INTO WEATHER"
@@ -76,7 +80,7 @@ NSString * DB_PATH = @"weather.sqlite";
          " WINDDIRECTION,"
          " DESC) "
          "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-         city.name,
+         cityName,
          weather.date,
          weather.tempMaxC,
          weather.tempMinC,

@@ -16,4 +16,5 @@
               andError: (NSError **) error;
 - (id) removeCityAtIndex: (int) index;
 - (id) removeCityWithName: (NSString *) cityName;
+- (void) updateWeatherForCityName: (NSString *) cityName;
 @end

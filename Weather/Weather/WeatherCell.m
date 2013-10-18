@@ -17,8 +17,8 @@
     self.tempMaxLabel.text = [NSString stringWithFormat:@"%i °", [weather.tempMaxC intValue]];
     self.tempMinLabel.text = [NSString stringWithFormat:@"%i °", [weather.tempMinC intValue]];
     self.windSpeedLabel.text = [NSString stringWithFormat:@"%i km/h", [weather.windSpeedKmph intValue]];
-    self.windDirImg.transform = CGAffineTransformMakeRotation(M_1_PI*[weather.windDirDegree floatValue]/180);
-    self.precipitationLabel.text = [NSString stringWithFormat:@"%f mm", [weather.precipMM floatValue]];
+    self.windDirImg.transform = CGAffineTransformMakeRotation(M_PI*[weather.windDirDegree floatValue]/180);
+    self.precipitationLabel.text = [NSString stringWithFormat:@"%1.2f mm", [weather.precipMM floatValue]];
 }
 
 @end

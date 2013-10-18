@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "City.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
 @property (nonatomic) City * city;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+@property (nonatomic) UIPopoverController *masterPopoverController;
 @end
