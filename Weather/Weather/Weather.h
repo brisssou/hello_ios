@@ -24,4 +24,12 @@
       windSpeedKmph: (int) speed
       windDirDegree: (int) dir
                desc: (NSString *) d;
+
+- (id) initWithRealDate: (NSDate*) date
+           tempMaxC: (int) max
+           tempMinC: (int) min
+           precipMM: (float) precip
+      windSpeedKmph: (int) speed
+      windDirDegree: (int) dir
+               desc: (NSString *) d;
 @end

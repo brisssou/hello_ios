@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "City.h"
 
-@interface WeathersCollectionViewController : UICollectionViewController
-
+@interface WeathersCollectionViewController : UICollectionViewController <UICollectionViewDataSource>
+@property (weak,nonatomic) City * city;
 @end

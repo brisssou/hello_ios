@@ -32,6 +32,27 @@
     return self;
 }
 
+- (id) initWithRealDate: (NSDate*) date
+           tempMaxC: (int) max
+           tempMinC: (int) min
+           precipMM: (float) precip
+      windSpeedKmph: (int) speed
+      windDirDegree: (int) dir
+               desc: (NSString *) d {
+    if (self = [super init]){
+        self.date = date;
+        
+        
+        self.tempMaxC = @(max);
+        self.tempMinC = @(min);
+        self.precipMM = @(precip);
+        self.windSpeedKmph = @(speed);
+        self.windDirDegree = @(dir);
+        self.desc = d;
+    }
+    return self;
+}
+
 - (NSString *) description {
     NSMutableString * str = [[NSMutableString alloc] init];
     [str appendFormat:@"date: %@\n", [self.date formatToFullString]];

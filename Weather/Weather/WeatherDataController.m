@@ -8,6 +8,14 @@
 
 #import "WeatherDataController.h"
 #import "City.h"
+#import "DatabaseHolder.h"
+#import "Weather.h"
+
+@interface WeatherDataController ()
+@property DatabaseHolder * database;
+@end
+
+
 
 @implementation WeatherDataController
 
@@ -25,12 +33,14 @@ static WeatherDataController *sharedInstance;
 - (id) init {
     if (self = [super init]) {
         self.cities = [[NSMutableArray alloc] init];
+        self.database = [[DatabaseHolder alloc] init];
     }
     return self;
 }
 
 - (BOOL) addCityWithName:(NSString *) cityName
-              addError: (NSError **) error {
+             andWeathers:(NSMutableArray *)weathers
+                andError: (NSError **) error {
     if ([cityName length] == 0){
         NSMutableDictionary* details = [NSMutableDictionary dictionary];
         [details setValue:@"City name is empty" forKey:NSLocalizedDescriptionKey];
@@ -50,17 +60,44 @@ static WeatherDataController *sharedInstance;
     }
 
     c = [[City alloc] initWithName: cityName];
+    
+    c.weathers = weathers;
+    
+    c.weathers = [@[[[Weather alloc] initWithDate:@"2013-10-12"
+                                                            tempMaxC:12
+                                                            tempMinC:5
+                                                            precipMM:32.
+                                                       windSpeedKmph:666
+                                                       windDirDegree:42
+                                                                desc:@"c'est vraiment très intéressant"]
+                                                       ] mutableCopy]
+        ;
+    
     [self.cities addObject : c];
     
     [self.cities sortUsingComparator:^NSComparisonResult(id o1, id o2){
         return [[o1 name] compare:[o2 name]];
     }];
+    [self.database addCity:c withError:error];
+    [self.database setWeathers:c.weathers forCity:c withError:error];
+
     return YES;
 }
 
+- (NSMutableArray *)cities{
+    _cities = [[self.database getCities] mutableCopy];
+    for (City * c in _cities) {
+        c.weathers = [[self.database getWeathersForCity:c] mutableCopy];
+    }
+    return _cities;
+}
+
 - (id) removeCityAtIndex: (int) index {
-    if (index < [self.cities count])
-        [self.cities removeObjectAtIndex: index];
+    if (index < [self.cities count]){
+        NSError * error;
+        City * c = self.cities[index];
+        [self.database removeCity:c withError:&error];
+    }
     return self;
 }
 
@@ -71,10 +108,13 @@ static WeatherDataController *sharedInstance;
         c = [self.cities objectAtIndex: i];
         if ([[c name] isEqualToString: cityName]) {
             indx = i;
+            break;
         }
     }
     if (indx != -1){
         [self.cities removeObjectAtIndex: indx];
+        NSError * error;
+        [self.database removeCity:c withError:&error];
     }
     return self;
 }

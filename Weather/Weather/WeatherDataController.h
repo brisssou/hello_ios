@@ -10,9 +10,10 @@
 
 @interface WeatherDataController : NSObject
 + (id) getInstance;
-@property NSMutableArray * cities;
+@property (nonatomic) NSMutableArray * cities;
 - (BOOL) addCityWithName:(NSString *) cityName
-              addError: (NSError **) error;
+             andWeathers:(NSArray *) weathers
+              andError: (NSError **) error;
 - (id) removeCityAtIndex: (int) index;
 - (id) removeCityWithName: (NSString *) cityName;
 @end

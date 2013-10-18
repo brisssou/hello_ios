@@ -8,10 +8,14 @@
 
 #import "MasterViewController.h"
 #import "WeatherDataController.h"
+#import "DetailViewController.h"
+#import "City.h"
+#import "Weather.h"
 
 @interface MasterViewController ()
 @property WeatherDataController * data;
 @property UIPopoverController * popOver;
+@property DetailViewController * detail;
 @end
 
 @implementation MasterViewController
@@ -21,11 +25,6 @@
     self = [super initWithCoder: aDecoder];
     if (self) {
         [self setData:[WeatherDataController getInstance]];
-        NSError * error;
-        [self.data addCityWithName:@"Grenoble" addError:&error];
-        [self.data addCityWithName:@"pwet" addError:&error];
-        [self.data addCityWithName:@"coin" addError:&error];
-        [self.data addCityWithName:@"labas" addError:&error];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(cityAddedNotification:)
@@ -57,6 +56,7 @@
         [segue.destinationViewController setDelegate:self];
     }
 }
+
 
 - (void) cityAddedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"cityAdded"]) {
@@ -91,12 +91,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.detail = self.splitViewController.viewControllers[1];
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark - Table view data source
@@ -117,62 +113,24 @@
 {
     static NSString *CellIdentifier = @"CityCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    [cell.textLabel setText:[[self.data.cities objectAtIndex:[indexPath row]] name]];
-    
+    City * city = [self.data.cities objectAtIndex:[indexPath row]];
+    [cell.textLabel setText:[city name]];
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.detail.city = [self.data cities][indexPath.row];
+}
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a story board-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- 
- */
-
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.data removeCityAtIndex: indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                              withRowAnimation:(UITableViewRowAnimationFade)];
+    }
+}
 @end

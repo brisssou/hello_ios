@@ -32,7 +32,9 @@
     NSString * cityName = [self.cityNameField text];
     WeatherDataController * data = [WeatherDataController getInstance];
     NSError * error;
-    if (![data addCityWithName:cityName addError: &error]) {
+    if (![data addCityWithName:cityName
+                   andWeathers:@[]
+                      andError: &error]) {
         [self.errorLabel setAlpha:0];
         [self.errorLabel setText:[error localizedDescription]];
         [UIView animateWithDuration:0.7
