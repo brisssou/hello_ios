@@ -52,7 +52,8 @@ NSString * DB_PATH = @"weather.sqlite";
     [self.db beginTransaction];
     if (![self.db executeUpdate:@"INSERT INTO CITY (NAME) VALUES (?)", city.name]) {
         NSLog(@"DB error %@", [self.db lastErrorMessage]);
-        *error = self.db.lastError;
+        if (error != NULL)
+            *error = self.db.lastError;
         return NO;
     };
     [self.db commit];

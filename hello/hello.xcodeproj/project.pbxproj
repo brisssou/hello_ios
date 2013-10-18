@@ -205,7 +205,7 @@
 				ORGANIZATIONNAME = admin;
 				TargetAttributes = {
 					84154DD3180C15C000D829CD = {
-						TestTargetID = 84154DB2180C15BD00D829CD;
+						TestTargetID = 84154DB2180C15BD00D829CD /* hello */;
 					};
 				};
 			};

@@ -45,7 +45,8 @@ static WeatherDataController *sharedInstance;
     if ([cityName length] == 0){
         NSMutableDictionary* details = [NSMutableDictionary dictionary];
         [details setValue:@"City name is empty" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"world" code:200 userInfo:details];
+        if (error != NULL)
+            *error = [NSError errorWithDomain:@"world" code:200 userInfo:details];
         return NO;
     }
     
@@ -55,7 +56,8 @@ static WeatherDataController *sharedInstance;
         if ([[c name] isEqualToString: cityName]) {
             NSMutableDictionary* details = [NSMutableDictionary dictionary];
             [details setValue:@"City already existing in the list" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"world" code:200 userInfo:details];
+            if (error != NULL)
+                *error = [NSError errorWithDomain:@"world" code:200 userInfo:details];
             return NO;
         }
     }
